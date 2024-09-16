@@ -1,0 +1,16 @@
+{
+  "files": {
+    "main.css": "/fitlog/static/css/main.f855e6bc.css",
+    "main.js": "/fitlog/static/js/main.8dcb9f0d.js",
+    "static/js/453.d111b5f3.chunk.js": "/fitlog/static/js/453.d111b5f3.chunk.js",
+    "static/media/logo.svg": "/fitlog/static/media/logo.6ce24c58023cc2f8fd88fe9d219db6c6.svg",
+    "index.html": "/fitlog/index.html",
+    "main.f855e6bc.css.map": "/fitlog/static/css/main.f855e6bc.css.map",
+    "main.8dcb9f0d.js.map": "/fitlog/static/js/main.8dcb9f0d.js.map",
+    "453.d111b5f3.chunk.js.map": "/fitlog/static/js/453.d111b5f3.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.f855e6bc.css",
+    "static/js/main.8dcb9f0d.js"
+  ]
+}
