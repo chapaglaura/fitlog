@@ -1,0 +1,45 @@
+@import "../../utils/variables.module";
+
+
+.container {
+    height: 100vh;
+    width: 100vw;
+    position: fixed;
+    left: -100%;
+    top: 0;
+    transition: left 0.3s ease-in-out;
+    background-color: $primaryColor;
+
+    &.show {
+        left: 0;
+    }
+
+    .trigger {
+        background-color: $primaryColor;
+        position: absolute;
+        padding: 20px 10px;
+        top: 5px;
+        left: calc(100% - 34px);
+        transition: all 0.2s ease-out;
+
+        &.panel-open,
+        &:hover {
+            left: 100%;
+            transform: rotate(180);
+        }
+    }
+
+
+    .close {
+        padding: 10px;
+    }
+
+    @media screen and (min-width: $lg) {
+        width: 30vw;
+        left: -30%;
+    }
+
+    p {
+        color: $primaryColor;
+    }
+}

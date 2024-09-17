@@ -11,7 +11,6 @@ const app = express();
 
 const store = new MongoDBStore({
   uri: dbConfig.url,
-  databaseName: process.env.DB_NAME,
   collection: 'sessions',
 });
 
@@ -58,22 +57,6 @@ app.use((req, res, next) => {
 app.get('/api', function (req, res) {
   res.json(req.session.user);
 });
-
-// app.use(
-//   '/api',
-//   createProxyMiddleware({
-//     target: 'http://localhost:3001/api',
-//     changeOrigin: true,
-//   })
-// );
-
-// const User = require('./models/user');
-
-// app.get('/api/users', async (req, res) => {
-//   console.log('getting users');
-//   const users = await User.find();
-//   return res.json(users);
-// });
 
 app.use(routes);
 

@@ -2,42 +2,7 @@ const db = require('../models');
 const bcrypt = require('bcryptjs');
 
 module.exports = {
-  findAll: function (req, res, collection) {
-    db[collection]
-      .find(req.query)
-      .then((dbModel) => res.json(dbModel))
-      .catch((err) => res.status(422).json(err));
-    // db[collection]
-    //   .find(req.query)
-    //   .sort({
-    //     name: 1,
-    //   })
-    //   .then((dbModel) => res.json(dbModel))
-    //   .catch((err) => res.status(422).json(err));
-  },
-  findByProject: function (req, res, collection) {
-    db[collection]
-      .find({ project: req.params.project })
-      .then((dbModel) => res.json(dbModel))
-      .catch((err) => res.status(422).json(err));
-  },
-
-  findByUserID: function (req, res, collection) {
-    console.log(req.params);
-    db[collection]
-      .findOne({
-        userID: req.params.userID,
-      })
-      .then((dbModel) => res.json(dbModel))
-      .catch((err) => res.status(422).json(err));
-  },
-  findById: function (req, res, collection) {
-    const user = req.user;
-    db[collection]
-      .findById(req.params.id)
-      .then((dbModel) => res.json({ dbModel, user }))
-      .catch((err) => res.status(422).json(err));
-  },
+  // CRUD
   create: function (req, res, collection) {
     console.log(collection, req.body);
     db[collection]
@@ -59,7 +24,7 @@ module.exports = {
       .then((dbModel) => res.json(dbModel))
       .catch((err) => res.status(422).json(err));
   },
-  remove: function (req, res, collection) {
+  delete: function (req, res, collection) {
     db[collection]
       .findById({
         _id: req.params.id,
@@ -68,14 +33,47 @@ module.exports = {
       .then((dbModel) => res.json(dbModel))
       .catch((err) => res.status(422).json(err));
   },
+  findAll: function (req, res, collection) {
+    db[collection]
+      .find(req.query)
+      .sort({
+        name: 1,
+      })
+      .then((dbModel) => res.json(dbModel))
+      .catch((err) => res.status(422).json(err));
+  },
+  findByProject: function (req, res, collection) {
+    db[collection]
+      .find({ project: req.params.project })
+      .then((dbModel) => res.json(dbModel))
+      .catch((err) => res.status(422).json(err));
+  },
+  findByUserID: function (req, res, collection) {
+    console.log(req.params);
+    db[collection]
+      .findOne({
+        userID: req.params.userID,
+      })
+      .then((dbModel) => res.json(dbModel))
+      .catch((err) => res.status(422).json(err));
+  },
+  findById: function (req, res, collection) {
+    const user = req.user;
+    db[collection]
+      .findById(req.params.id)
+      .then((dbModel) => res.json({ dbModel, user }))
+      .catch((err) => res.status(422).json(err));
+  },
+  verifyLogin: function (req, res) {
+    return res.json(req.session.user);
+  },
   checkLogin: function (req, res, collection) {
-    const { username, password, type } = req.body;
-    console.log('chekcing login');
+    const { username, password } = req.body;
+    console.log('checking login');
 
     db[collection]
       .findOne({
         username,
-        type,
       })
       .then((user) => {
         console.log('user:', user);

@@ -1,11 +1,22 @@
-import React, { useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import './App.css';
 import axios from 'axios';
+import { SidePanel } from './components/SidePanel/SidePanel';
+import { MainPanel } from './components/MainPanel/MainPanel';
+import { LoginPanel } from './components/LoginPanel/LoginPanel';
+import { AuthGuard } from './contexts/AuthProvider/AuthGuard';
+import { AuthProvider } from './contexts/AuthProvider/AuthProvider';
 
-function App() {
+const App = () => {
+  const [userSession, setUserSession] = useState();
+
   useEffect(() => {
-    axios.get('/api/users').then((res) => {
-      console.log(res);
+    axios.get('/api/users/login').then(({ data: user }) => {
+      console.log(user);
+      if (user) {
+        setUserSession(user);
+      }
     });
   }, []);
 
@@ -17,11 +28,26 @@ function App() {
   };
   return (
     <div className="App">
-      <button onClick={handleButtonClick}>ADD USER</button>
-      <input type="text" name="username" id="username" />
-      <input type="text" name="password" id="password" />
+      <BrowserRouter>
+        <AuthProvider>
+          <Routes>
+            <Route path="/" element={<LoginPanel />} />
+            <Route element={<AuthGuard />}>
+              <Route
+                path="/dashboard"
+                element={
+                  <>
+                    <SidePanel />
+                    <MainPanel />
+                  </>
+                }
+              />
+            </Route>
+          </Routes>
+        </AuthProvider>
+      </BrowserRouter>
     </div>
   );
-}
+};
 
 export default App;
