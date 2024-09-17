@@ -1,0 +1,31 @@
+@import-normalize;
+@import "./utils/_variables.module";
+
+@font-face {
+  font-family: 'Moderustic';
+  src: local('Moderustic'), url(./assets/fonts/Moderustic/Moderustic-VariableFont_wght.ttf) format('truetype');
+}
+
+html,
+body,
+p {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Moderustic';
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+button {
+  border: none;
+  cursor: pointer;
+  background-color: transparent;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}

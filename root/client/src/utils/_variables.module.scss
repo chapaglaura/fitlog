@@ -1,0 +1,16 @@
+
+$xs: 400px;
+$sm: 640px;
+$md: 768px;
+$lg: 1024px;
+$xl: 1180px;
+$xxl: 1440px;
+
+$primaryColor: #333;
+$secondaryColor: #FFF;
+$tertiaryColor: #444;
+
+:export {
+    primaryColor: $primaryColor;
+    secondaryColor: $secondaryColor;
+}
