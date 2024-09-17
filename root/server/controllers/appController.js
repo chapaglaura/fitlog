@@ -42,12 +42,6 @@ module.exports = {
       .then((dbModel) => res.json(dbModel))
       .catch((err) => res.status(422).json(err));
   },
-  findByProject: function (req, res, collection) {
-    db[collection]
-      .find({ project: req.params.project })
-      .then((dbModel) => res.json(dbModel))
-      .catch((err) => res.status(422).json(err));
-  },
   findByUserID: function (req, res, collection) {
     console.log(req.params);
     db[collection]
@@ -64,12 +58,21 @@ module.exports = {
       .then((dbModel) => res.json({ dbModel, user }))
       .catch((err) => res.status(422).json(err));
   },
+
+  // LOGIN
   verifyLogin: function (req, res) {
     return res.json(req.session.user);
   },
-  checkLogin: function (req, res, collection) {
+  login: function (req, res, collection) {
     const { username, password } = req.body;
-    console.log('checking login');
+
+    if (!username || !password) {
+      res.json({
+        error: {
+          message: 'Something went wrong.',
+        },
+      });
+    }
 
     db[collection]
       .findOne({
@@ -78,8 +81,11 @@ module.exports = {
       .then((user) => {
         console.log('user:', user);
         if (!user) {
-          console.log('no user found');
-          return res.json(false);
+          res.json({
+            error: {
+              message: 'Username not found.',
+            },
+          });
         }
         bcrypt
           .compare(password, user.password)
@@ -94,25 +100,52 @@ module.exports = {
                 res.json(user);
               });
             }
-            return res.json(false);
+            res.json({
+              error: {
+                message: 'Something went wrong.',
+              },
+            });
           })
           .catch((err) => {
             console.log(err);
-            res.send('Oops, something went wrong');
+            res.json({
+              error: {
+                message: err.message,
+              },
+            });
           });
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        console.log(err);
+        res.json({
+          error: {
+            message: err.message,
+          },
+        });
+      });
   },
-  checkSignup: function (req, res, collection) {
-    const { username, password, type } = req.body;
+  signup: function (req, res, collection) {
+    const { username, password } = req.body;
+
+    if (!username || !password) {
+      res.json({
+        error: {
+          message: 'Something went wrong.',
+        },
+      });
+    }
 
     db[collection]
       .findOne({
-        username: username,
+        username,
       })
       .then((userDoc) => {
         if (userDoc) {
-          res.send(false);
+          res.json({
+            error: {
+              message: 'Username already exists.',
+            },
+          });
         }
         return bcrypt
           .hash(password, 12)
@@ -120,7 +153,6 @@ module.exports = {
             const user = new db[collection]({
               username,
               password: hashedPassword,
-              type,
             });
             return user.save();
           })
