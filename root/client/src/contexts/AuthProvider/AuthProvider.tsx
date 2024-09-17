@@ -1,4 +1,5 @@
 import { createContext, useContext, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 interface AuthContextType {
   userAuth: boolean;
@@ -20,8 +21,11 @@ export const AuthContext = createContext<AuthContextType>({
 export const AuthProvider = ({ children }: AuthProviderProps) => {
   const [userAuth, setUserAuth] = useState(false);
 
+  const navigate = useNavigate();
+
   const authenticateUser = (loggedIn: boolean) => {
     setUserAuth(loggedIn);
+    navigate('/dashboard');
   };
 
   return (
